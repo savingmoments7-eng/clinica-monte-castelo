@@ -1,0 +1,297 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<title>Clínica Monte Castelo</title>
+<meta name="description" content="Clínica Monte Castelo — avalie no Google, Wi-Fi, WhatsApp e Instagram.">
+<meta name="theme-color" content="#6c2333">
+<style>
+  @font-face{font-family:Sora;src:url(Sora.ttf) format("truetype");font-weight:100 800;font-display:swap}
+  /* ====== PALETA DA CLÍNICA (mesma dos vídeos e artes) ====== */
+  :root{
+    --vinho:#6c2333;
+    --vinho-claro:#7a2638;
+    --vinho-escuro:#3d101b;
+    --dourado:#e9c77b;
+    --dourado-2:#c9a45c;
+    --creme:#f3e7d3;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{min-height:100%}
+  body{
+    font-family:Sora,system-ui,-apple-system,sans-serif;
+    color:var(--creme);
+    background:radial-gradient(120% 70% at 50% 0%,var(--vinho-claro) 0%,var(--vinho) 45%,var(--vinho-escuro) 100%) fixed;
+    background-color:var(--vinho-escuro);
+    -webkit-font-smoothing:antialiased;
+  }
+  .hero{text-align:center;padding:8px 0 0}
+  .logo{
+    width:min(78vw,340px);aspect-ratio:1;margin:0 auto;
+    -webkit-mask-image:radial-gradient(circle at 50% 50%,#000 48%,transparent 70%);
+            mask-image:radial-gradient(circle at 50% 50%,#000 48%,transparent 70%);
+  }
+  .logo img{width:100%;height:100%;object-fit:cover;display:block}
+  h1{position:absolute;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0)}
+  .tag{margin-top:-14px;font-size:14px;color:var(--creme);opacity:.85;font-weight:300}
+  .linha{width:60px;height:1px;background:var(--dourado);margin:16px auto 0;opacity:.8}
+  main{max-width:440px;margin:0 auto;padding:24px 18px 36px}
+  .btn{
+    display:flex;align-items:center;gap:14px;width:100%;
+    background:rgba(61,16,27,.55);color:var(--creme);text-decoration:none;
+    border-radius:16px;padding:15px 16px;margin-bottom:12px;
+    border:1px solid rgba(233,199,123,.35);
+    transition:transform .15s ease, background .15s ease;
+    font:inherit;cursor:pointer;text-align:left;
+  }
+  .btn:active{transform:scale(.98)}
+  .btn:hover{background:rgba(61,16,27,.75)}
+  .ico{
+    flex:0 0 46px;height:46px;border-radius:50%;display:grid;place-items:center;
+    border:1px solid var(--dourado);color:var(--dourado);
+  }
+  .ico svg{width:22px;height:22px}
+  .txt{flex:1;min-width:0}
+  .txt b{display:block;font-size:15.5px;font-weight:600}
+  .txt small{display:block;font-size:12.5px;opacity:.75;margin-top:3px;font-weight:300}
+  .arrow{color:var(--dourado);font-size:22px;line-height:1}
+
+  /* Destaque: avaliação no Google */
+  .google{
+    background:linear-gradient(135deg,#f0d48f 0%,var(--dourado) 45%,var(--dourado-2) 100%);
+    color:var(--vinho-escuro);border:0;box-shadow:0 10px 28px rgba(0,0,0,.28);
+  }
+  .google:hover{background:linear-gradient(135deg,#f3da9c 0%,#ecca82 45%,#cfab63 100%)}
+  .google .ico{background:#fff;border:0}
+  .google .txt small{opacity:.8}
+  .google .arrow{color:var(--vinho)}
+  .stars{color:var(--vinho);letter-spacing:2px;font-size:13px;margin-top:2px}
+
+  /* Wi-Fi */
+  .wifi{
+    background:var(--creme);color:var(--vinho-escuro);border-radius:16px;padding:16px;margin-bottom:12px;
+    box-shadow:0 10px 28px rgba(0,0,0,.22);
+  }
+  .wifi-head{display:flex;align-items:center;gap:14px;margin-bottom:10px}
+  .wifi-head .ico{border-color:var(--vinho);color:var(--vinho)}
+  .row{
+    display:flex;justify-content:space-between;align-items:center;gap:10px;
+    background:#fff;border-radius:11px;padding:11px 14px;margin-top:8px;
+  }
+  .row span{font-size:11px;opacity:.6;text-transform:uppercase;letter-spacing:1.4px}
+  .row strong{font-size:16px;font-weight:600;word-break:break-all;color:var(--vinho)}
+  .copy{
+    margin-top:12px;width:100%;border:0;border-radius:11px;padding:13px;
+    background:var(--vinho);color:var(--creme);font:600 15px Sora,sans-serif;cursor:pointer;
+  }
+  .copy.ok{background:#3f7a4f}
+
+  footer{text-align:center;font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;color:var(--dourado);opacity:.8;padding:4px 0 30px}
+
+  /* ====== ABA SERVIÇOS ====== */
+  .servicos-btn .ico{background:rgba(233,199,123,.12)}
+  .painel{
+    position:fixed;inset:0;z-index:50;overflow-y:auto;-webkit-overflow-scrolling:touch;
+    background:radial-gradient(120% 70% at 50% 0%,var(--vinho-claro) 0%,var(--vinho) 45%,var(--vinho-escuro) 100%);
+    background-color:var(--vinho-escuro);
+    transform:translateX(100%);transition:transform .32s cubic-bezier(.2,.8,.2,1);visibility:hidden;
+  }
+  .painel.aberto{transform:none;visibility:visible}
+  .painel-top{
+    position:sticky;top:0;z-index:2;display:flex;align-items:center;gap:12px;
+    padding:16px 18px;background:rgba(61,16,27,.85);backdrop-filter:blur(8px);-webkit-backdrop-filter:blur(8px);
+    border-bottom:1px solid rgba(233,199,123,.25);
+  }
+  .voltar{
+    width:40px;height:40px;border-radius:50%;border:1px solid var(--dourado);background:none;
+    color:var(--dourado);display:grid;place-items:center;cursor:pointer;flex:0 0 40px;
+  }
+  .voltar svg{width:20px;height:20px}
+  .painel-top h2{font-size:18px;font-weight:600}
+  .painel-top small{display:block;font-size:12px;font-weight:300;opacity:.75}
+  .lista{max-width:440px;margin:0 auto;padding:18px 18px 34px}
+  .serv{
+    background:var(--creme);color:var(--vinho-escuro);border-radius:16px;padding:16px;margin-bottom:12px;
+    box-shadow:0 8px 22px rgba(0,0,0,.2);
+  }
+  .serv-head{display:flex;align-items:center;gap:12px}
+  .serv-head .ico{border-color:var(--vinho);color:var(--vinho);flex:0 0 42px;height:42px}
+  .serv h3{font-size:16px;font-weight:600;color:var(--vinho)}
+  .serv p{font-size:13.5px;line-height:1.5;margin-top:10px;opacity:.85;font-weight:400}
+  .serv a{
+    display:block;margin-top:12px;text-align:center;text-decoration:none;
+    background:var(--vinho);color:var(--creme);border-radius:11px;padding:11px;font-size:14px;font-weight:600;
+  }
+  .painel-nota{text-align:center;font-size:12px;opacity:.7;font-weight:300;padding:4px 10px 0}
+</style>
+</head>
+<body>
+
+<header class="hero">
+  <div class="logo"><img src="logo.jpg" alt="Clínica Monte Castelo — Odontologia e Estética"></div>
+  <h1 id="nome">Clínica Monte Castelo</h1>
+  <p class="tag" id="slogan">Seja bem-vindo(a)!</p>
+  <div class="linha"></div>
+</header>
+
+<main>
+  <!-- Avaliação Google -->
+  <a class="btn google" id="lnk-google" target="_blank" rel="noopener">
+    <div class="ico">
+      <svg viewBox="0 0 48 48"><path fill="#FFC107" d="M43.6 20.5H42V20H24v8h11.3C33.7 32.7 29.2 36 24 36c-6.6 0-12-5.4-12-12s5.4-12 12-12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 12.9 4 4 12.9 4 24s8.9 20 20 20 20-8.9 20-20c0-1.3-.1-2.4-.4-3.5z"/><path fill="#FF3D00" d="M6.3 14.7l6.6 4.8C14.7 15.1 19 12 24 12c3.1 0 5.8 1.2 7.9 3l5.7-5.7C34 6.1 29.3 4 24 4 16.3 4 9.7 8.3 6.3 14.7z"/><path fill="#4CAF50" d="M24 44c5.2 0 9.9-2 13.4-5.2l-6.2-5.2C29.2 35.1 26.7 36 24 36c-5.2 0-9.6-3.3-11.3-7.9l-6.5 5C9.5 39.6 16.2 44 24 44z"/><path fill="#1976D2" d="M43.6 20.5H42V20H24v8h11.3c-.8 2.2-2.2 4.2-4.1 5.6l6.2 5.2C37 39.2 44 34 44 24c0-1.3-.1-2.4-.4-3.5z"/></svg>
+    </div>
+    <div class="txt">
+      <b>Avalie a gente no Google</b>
+      <div class="stars">★★★★★</div>
+      <small>Sua opinião faz toda a diferença</small>
+    </div>
+    <span class="arrow">›</span>
+  </a>
+
+  <!-- Wi-Fi -->
+  <section class="wifi">
+    <div class="wifi-head">
+      <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round"><path d="M2 8.8a15 15 0 0 1 20 0"/><path d="M5 12.6a10 10 0 0 1 14 0"/><path d="M8.5 16.2a5 5 0 0 1 7 0"/><circle cx="12" cy="19.5" r="1" fill="currentColor"/></svg></div>
+      <div class="txt"><b>Wi-Fi gratuito</b><small>Conecte-se enquanto aguarda</small></div>
+    </div>
+    <div class="row" id="row-rede"><span>Rede</span><strong id="wifi-rede"></strong></div>
+    <div class="row"><span>Senha</span><strong id="wifi-senha"></strong></div>
+    <button class="copy" id="btn-copiar">Copiar senha</button>
+  </section>
+
+  <!-- Serviços -->
+  <button class="btn servicos-btn" id="abrir-servicos" type="button">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7.5 3C5 3 3.5 5 3.5 7.6c0 2.2.8 3.6 1.4 5.5.6 2 .8 4.4 1.3 6.3.3 1.2.8 1.6 1.4 1.6.9 0 1.2-1 1.5-2.4.4-1.8.7-3.6 2.9-3.6s2.5 1.8 2.9 3.6c.3 1.4.6 2.4 1.5 2.4.6 0 1.1-.4 1.4-1.6.5-1.9.7-4.3 1.3-6.3.6-1.9 1.4-3.3 1.4-5.5C20.5 5 19 3 16.5 3c-1.9 0-2.9 1.1-4.5 1.1S9.4 3 7.5 3z"/></svg></div>
+    <div class="txt"><b>Nossos serviços</b><small>Conheça os tratamentos da clínica</small></div>
+    <span class="arrow">›</span>
+  </button>
+
+  <!-- WhatsApp -->
+  <a class="btn whats" id="lnk-whats" target="_blank" rel="noopener">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="currentColor"><path d="M17.5 14.4c-.3-.1-1.8-.9-2-1-.3-.1-.5-.1-.7.1-.2.3-.8 1-.9 1.2-.2.2-.3.2-.6.1-.3-.1-1.3-.5-2.4-1.5-.9-.8-1.5-1.8-1.7-2.1-.2-.3 0-.5.1-.6l.4-.5c.2-.2.2-.3.3-.5.1-.2 0-.4 0-.5l-.9-2.2c-.2-.6-.5-.5-.7-.5h-.6c-.2 0-.5.1-.8.4-.3.3-1 1-1 2.5s1.1 2.9 1.2 3.1c.1.2 2.1 3.2 5.1 4.5.7.3 1.3.5 1.7.6.7.2 1.4.2 1.9.1.6-.1 1.8-.7 2-1.4.2-.7.2-1.3.2-1.4-.1-.1-.3-.2-.6-.3zM12 21.8c-1.8 0-3.5-.5-5-1.4l-.4-.2-3.7 1 1-3.6-.2-.4C2.7 15.6 2.2 13.8 2.2 12 2.2 6.6 6.6 2.2 12 2.2c2.6 0 5.1 1 6.9 2.9 1.8 1.8 2.9 4.3 2.9 6.9 0 5.4-4.4 9.8-9.8 9.8zM20.5 3.5C18.2 1.2 15.2 0 12 0 5.4 0 .1 5.3.1 11.9c0 2.1.5 4.2 1.6 6L0 24l6.3-1.6c1.7.9 3.7 1.4 5.7 1.4 6.6 0 11.9-5.3 11.9-11.9 0-3.2-1.2-6.2-3.4-8.4z"/></svg></div>
+    <div class="txt"><b>Fale no WhatsApp</b><small>Agende sua consulta</small></div>
+    <span class="arrow">›</span>
+  </a>
+
+  <!-- Instagram -->
+  <a class="btn insta" id="lnk-insta" target="_blank" rel="noopener">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><rect x="3" y="3" width="18" height="18" rx="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></div>
+    <div class="txt"><b>Siga no Instagram</b><small id="insta-user">@clinica_montecastelo</small></div>
+    <span class="arrow">›</span>
+  </a>
+
+  <!-- Localização (some se ficar vazio) -->
+  <a class="btn maps" id="lnk-maps" target="_blank" rel="noopener">
+    <div class="ico"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M12 22s7-6.2 7-12a7 7 0 0 0-14 0c0 5.8 7 12 7 12z"/><circle cx="12" cy="10" r="2.5"/></svg></div>
+    <div class="txt"><b>Como chegar</b><small id="endereco">Ver no mapa</small></div>
+    <span class="arrow">›</span>
+  </a>
+</main>
+
+<!-- Painel de serviços -->
+<section class="painel" id="painel-servicos" aria-hidden="true">
+  <div class="painel-top">
+    <button class="voltar" id="fechar-servicos" type="button" aria-label="Voltar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.2" stroke-linecap="round" stroke-linejoin="round"><path d="M15 5l-7 7 7 7"/></svg></button>
+    <div><h2>Nossos serviços</h2><small>Toque para agendar sua avaliação</small></div>
+  </div>
+  <div class="lista" id="lista-servicos"></div>
+  <p class="painel-nota">Odontologia e Estética · Clínica Monte Castelo</p>
+</section>
+
+<footer>Odontologia e Estética</footer>
+
+<script>
+/* ============================================================
+   DADOS DA CLÍNICA — é só trocar aqui
+   ============================================================ */
+const CLINICA = {
+  nome:      "Clínica Monte Castelo",
+  slogan:    "Seja bem-vindo(a)!",
+  google:    "https://search.google.com/local/writereview?placeid=ChIJgwvnA7vty08RatA1ahQbJhw",
+  wifiRede:  "",                                   // nome da rede (deixe "" para esconder)
+  wifiSenha: "Montecastelo134",
+  whatsapp:  "5569993779357",                      // DDI + DDD + número, só dígitos
+  whatsMsg:  "Olá! Vim pelo QR Code da clínica e gostaria de mais informações.",
+  instagram: "clinica_montecastelo",                // só o @, sem o símbolo
+  maps:      "https://www.google.com/maps/search/?api=1&query=Cl%C3%ADnica%20Monte%20Castelo%20Odontologia&query_place_id=ChIJgwvnA7vty08RatA1ahQbJhw",
+  endereco:  "R. Monte Castelo, 134 – Dois de Abril",
+  /* Serviços: nome + texto curto (sem preço, regra do CFO) */
+  servicos: [
+    { nome: "Harmonização Orofacial",       texto: "Realça os traços do rosto com equilíbrio e naturalidade, valorizando o seu sorriso." },
+    { nome: "Odontopediatria",              texto: "Cuidado com os dentes das crianças, com atendimento acolhedor desde os primeiros dentinhos." },
+    { nome: "Ortodontia",                   texto: "Aparelhos para alinhar os dentes e corrigir a mordida, com acompanhamento em cada etapa." },
+    { nome: "Clínica Geral",                texto: "Consultas, limpeza, restaurações e prevenção para manter a saúde da sua boca em dia." },
+    { nome: "Cirurgia Oral",                texto: "Extrações, inclusive do siso, e outros procedimentos feitos com segurança e cuidado." },
+    { nome: "Implantodontia",               texto: "Implantes que repõem dentes perdidos com firmeza e aparência natural." },
+    { nome: "Reabilitação Oral",            texto: "Devolve a função e a estética do sorriso com próteses e tratamentos planejados para você." },
+    { nome: "Endodontia",                   texto: "Tratamento de canal para eliminar a dor e preservar o seu dente natural." },
+    { nome: "Clareamento Dental",           texto: "Dentes mais brancos com segurança, com técnica e acompanhamento profissional." },
+    { nome: "Facetas em Resina Composta",   texto: "Corrigem cor, formato e pequenos espaços entre os dentes, em menos sessões." },
+    { nome: "Facetas em Porcelana",         texto: "Lâminas finas e resistentes que transformam o sorriso com brilho e naturalidade." }
+  ]
+};
+/* ============================================================ */
+
+const $ = id => document.getElementById(id);
+document.title = CLINICA.nome;
+$("nome").textContent = CLINICA.nome;
+$("slogan").textContent = CLINICA.slogan;
+
+if (CLINICA.google) $("lnk-google").href = CLINICA.google; else $("lnk-google").remove();
+if (CLINICA.wifiRede) $("wifi-rede").textContent = CLINICA.wifiRede; else $("row-rede").remove();
+$("wifi-senha").textContent = CLINICA.wifiSenha;
+$("lnk-whats").href = `https://wa.me/${CLINICA.whatsapp}?text=${encodeURIComponent(CLINICA.whatsMsg)}`;
+$("lnk-insta").href = `https://instagram.com/${CLINICA.instagram}`;
+$("insta-user").textContent = "@" + CLINICA.instagram;
+if (CLINICA.maps) {
+  $("lnk-maps").href = CLINICA.maps;
+  if (CLINICA.endereco) $("endereco").textContent = CLINICA.endereco;
+} else {
+  $("lnk-maps").remove();
+}
+
+$("btn-copiar").addEventListener("click", async () => {
+  const b = $("btn-copiar");
+  try {
+    await navigator.clipboard.writeText(CLINICA.wifiSenha);
+  } catch {
+    const t = document.createElement("textarea");
+    t.value = CLINICA.wifiSenha; document.body.appendChild(t); t.select();
+    document.execCommand("copy"); t.remove();
+  }
+  b.textContent = "Senha copiada ✓"; b.classList.add("ok");
+  setTimeout(() => { b.textContent = "Copiar senha"; b.classList.remove("ok"); }, 2200);
+});
+
+/* ====== Aba Serviços ====== */
+const dente = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linejoin="round"><path d="M7.5 3C5 3 3.5 5 3.5 7.6c0 2.2.8 3.6 1.4 5.5.6 2 .8 4.4 1.3 6.3.3 1.2.8 1.6 1.4 1.6.9 0 1.2-1 1.5-2.4.4-1.8.7-3.6 2.9-3.6s2.5 1.8 2.9 3.6c.3 1.4.6 2.4 1.5 2.4.6 0 1.1-.4 1.4-1.6.5-1.9.7-4.3 1.3-6.3.6-1.9 1.4-3.3 1.4-5.5C20.5 5 19 3 16.5 3c-1.9 0-2.9 1.1-4.5 1.1S9.4 3 7.5 3z"/></svg>';
+$("lista-servicos").innerHTML = CLINICA.servicos.map(sv => {
+  const msg = `Olá! Vim pelo QR Code da clínica e gostaria de saber mais sobre ${sv.nome.toLowerCase()}.`;
+  return `<article class="serv">
+    <div class="serv-head"><div class="ico">${dente}</div><h3>${sv.nome}</h3></div>
+    <p>${sv.texto}</p>
+    <a href="https://wa.me/${CLINICA.whatsapp}?text=${encodeURIComponent(msg)}" target="_blank" rel="noopener">Agendar avaliação</a>
+  </article>`;
+}).join("");
+
+const painel = $("painel-servicos");
+function abrirServicos(push){
+  painel.classList.add("aberto"); painel.setAttribute("aria-hidden","false");
+  document.body.style.overflow = "hidden"; painel.scrollTop = 0;
+  if (push) history.pushState({servicos:true}, "", "#servicos");
+}
+function fecharServicos(){
+  painel.classList.remove("aberto"); painel.setAttribute("aria-hidden","true");
+  document.body.style.overflow = "";
+}
+$("abrir-servicos").addEventListener("click", () => abrirServicos(true));
+$("fechar-servicos").addEventListener("click", () => {
+  if (location.hash === "#servicos" && history.state && history.state.servicos) history.back();
+  else { fecharServicos(); history.replaceState(null, "", location.pathname); }
+});
+window.addEventListener("popstate", () => location.hash === "#servicos" ? abrirServicos(false) : fecharServicos());
+if (location.hash === "#servicos") abrirServicos(false);
+</script>
+</body>
+</html>

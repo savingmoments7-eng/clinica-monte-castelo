@@ -144,7 +144,7 @@
     <div class="txt">
       <b>Avalie a gente no Google</b>
       <div class="stars">★★★★★</div>
-      <small>Sua opinião faz toda a diferença</small>
+      <small id="google-dica">Sua opinião faz toda a diferença</small>
     </div>
     <span class="arrow">›</span>
   </a>
@@ -238,7 +238,21 @@ document.title = CLINICA.nome;
 $("nome").textContent = CLINICA.nome;
 $("slogan").textContent = CLINICA.slogan;
 
-if (CLINICA.google) $("lnk-google").href = CLINICA.google; else $("lnk-google").remove();
+/* Avaliação no Google: abre no app (onde a pessoa já está logada) em vez do navegador.
+   Android: o link de avaliação abre direto a janela das estrelas no app Google Maps.
+   iPhone: o Safari quase nunca está logado no Google; abre a clínica no app Google Maps. */
+const ehIOS = /iPhone|iPad|iPod/i.test(navigator.userAgent) || (navigator.platform === "MacIntel" && navigator.maxTouchPoints > 1);
+const ehCelular = ehIOS || /Android/i.test(navigator.userAgent);
+if (CLINICA.google) {
+  const g = $("lnk-google");
+  if (ehIOS) {
+    g.href = CLINICA.maps;
+    $("google-dica").textContent = "Abre no Google Maps: toque em “Avaliar”";
+  } else {
+    g.href = CLINICA.google;
+  }
+  if (ehCelular) g.removeAttribute("target"); // sem nova aba, o celular passa o link para o app
+} else $("lnk-google").remove();
 if (CLINICA.wifiRede) $("wifi-rede").textContent = CLINICA.wifiRede; else $("row-rede").remove();
 $("wifi-senha").textContent = CLINICA.wifiSenha;
 $("lnk-whats").href = `https://wa.me/${CLINICA.whatsapp}?text=${encodeURIComponent(CLINICA.whatsMsg)}`;
